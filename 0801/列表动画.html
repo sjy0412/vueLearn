@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue-2.4.0.js"></script>
+    <style>
+        li{
+            border: 1px dashed rgb(0, 47, 255);
+            list-style: none;
+            font-size: 16px;
+            margin: 5px;
+            line-height: 35px;
+            padding-left: 35px;
+            width: 440px;
+        }
+        li:hover {
+            background-color: lightgreen;
+            transition: all 0.4s ease;
+        }
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translatey(120px);
+        }
+        /* v-enter-active [入场动画时间段]
+            v-leave-active [离场动画时间段] */
+        .v-enter-active,
+        .v-leave-active {
+            transition: all 0.8s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <label >
+                Id:
+                <input type="text" v-model="id">
+            </label>
+            <label >
+                Name:
+                <input type="text" v-model="name">
+            </label>
+            <input type="button" value="添加" @click="add()">
+        </div>
+         <!-- 在实现列表过渡的时候,如果需要过渡的元素是通过 v-for 循环渲染出来的
+        不能使用transition 包裹,需要使用 transition-group -->
+        <!-- 如果要为 v-for 循环创建的元素设置动画,必须为每一个元素设置 :key属性 -->
+        <!-- 添加appear属性,实现页面刚展示出来的时候,入场的效果 -->
+        <!-- 通过为 transition-group 元素设置tag属性,指定渲染为指定的元素,如果不指定tag属性,默认渲染为span标签 -->
+            <transition-group  apppear tag="ul">
+                <li v-for = "item in list" :key = "item.id">
+                    {{item.id}} --- {{item.name}}
+                </li>
+            </transition-group>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data:{
+                id: '',
+                name: '',
+                list:[
+                    {id: 1, name: '杨玉环'},
+                    {id: 2, name: '王昭君'},
+                    {id: 3, name: '貂蝉'},
+                    {id: 4, name: '西施'}
+                ]
+            },
+            methods:{
+                add() {
+                    this.list.push({id: this.id, name: this.name})
+                    this.id = ''
+                    this.name = ''
+                }
+            }   
+        })
+    </script>
+</body>
+</html>

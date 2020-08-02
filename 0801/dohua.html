@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dohua</title>
+    <script src="../lib/vue-2.4.0.js"></script>
+</head>
+<style>
+    /*v-enter 动画进入之前,元素的起始状态,此时还没凯撒进入
+    v-leave-to [这是一个时间点] 是动画离开之后,离开的终止状态*/
+    .v-enter,
+    .v-leave-to {
+        opacity: 0;
+        transform: translatex(120px);
+    }
+    /* v-enter-active [入场动画时间段]
+        v-leave-active [离场动画时间段] */
+    .v-enter-active,
+    .v-leave-active {
+        transition: all 1.0s ease;
+    }
+    .my-enter,
+    .my-leave-to {
+        opacity: 0;
+        transform: translatey(120px);
+    }
+    .my-enter-active,
+    .my-leave-active {
+        transition: all 1.0s ease;
+    }
+</style>
+<body>
+    <div id="app">
+        <input type="button" value="toggle" @click="flag=!flag">
+        <!-- 使用transition 元素,把需要动画控制的元素包裹起来 -->
+        <transition >
+            <h3 v-if="flag">这是一个H3</h3> 
+        </transition>
+        <hr>
+        <input type="button" value="toggle" @click="flag2=!flag2">
+
+        <!-- 在实现列表过渡的时候,如果需要过渡的元素是通过 v-for 循环渲染出来的
+        不能使用transition 包裹,需要使用 transition-group -->
+        <!-- 如果要为 v-for 循环创建的元素设置动画,必须为每一个元素设置 :key属性 -->
+        <!-- 添加appear属性,实现页面刚展示出来的时候,入场的效果 -->
+        <!-- 通过为 transition-group 元素设置tag属性,指定渲染为指定的元素,如果不指定tag属性,默认渲染为span标签 -->
+        <!-- 例
+            <transition-group  appear tag="ul">
+                <li v-for="item in list" :key="item.id"></li>
+                {{item.id}} --- {{item.name}}
+            </transition-group>
+        -->
+
+        <transition name="my">
+            <h6 v-if="flag2">这是一个H6</h6>
+        </transition>
+    </div>
+    
+    <script>
+        //创建Vue实例,得到ViewModel
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag:false,
+                flag2:false
+            },
+            methods: {
+                
+            }
+        })
+    </script>
+</body>
+</html>

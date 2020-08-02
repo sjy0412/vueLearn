@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+	<script src="../vue-2.4.0.js">	</script>
+	<body>
+		<!-- 将来new的vue实例,会控制整个元素中的所有内容 -->
+		<!-- vue实例所控制的这个元素区域,就是我们的 v -->
+		<div id="app">
+			<!-- 使用 v-cloak 能够解决 插值表达式闪烁的问题 -->
+			<p v-cloak>{{ msg}}</p>
+			<h4 v-text="msg"></h4>
+			<!-- 默认 v-text 是没有闪烁问题的  v-text 会覆盖元素中原本的内容,
+			但是插值表达式只会替换自己的这个占位符,不会把整个元素的内容清空 -->
+			<div>{{msg2}}</div>
+			<div v-text="msg2"></div>
+			<div v-html="msg2">121331</div>
+			
+			<!-- v-bind: 是vue中,提供的用于绑定属性的指令
+				<input type="button"  value="按钮"  v-bind:title="mytitle + '123' "/> -->
+			<!-- 注意: v-bind:指令可以被简写为:要绑定的属性 -->
+			<!-- v-bind中可以写合法的js表达式 -->
+			<!-- vue中提供了v-on: 事件绑定机制 -->
+			<!-- v-on:mouseover 鼠标覆盖事件 -->
+			<input type="button"   value="按钮" :title="mytitle + '123'" v-on:click="show" />
+		</div>
+		
+		<script type="text/javascript">
+			// 2 创建一个vue实例
+			// 当我没导入包之后,在浏览器内存中,就多了一个vue构造函数
+			// 注意:我们 new 出来的这个vm对象,就是我们MVVM中的VM调度者
+			var vm = new Vue({
+				 el:'#app',  //表示,当前我们new的这个实例,要控制页面上的哪个区域
+				 // 这里的 data 就是 MVVM 中的 M, 专门用来保存每个页面的数据的
+				 data: {
+					 msg: '欢迎学习vue' ,//通过Vue提供的指令,很方便的就能把数据渲染到页面上,
+					 //程序员不再手动操作DOM元素[前端的vue之类的框架,不提供我们去手动操作DOM元素了]
+					msg2:'<h1> hello world!!</h1>',
+					mytitle: '这是一个自己定义的title'
+				 },
+				 methods:{ //这个methods属性中定义了当前vue实例所有可用的方法
+					 show: function() {
+						 alert('Hello')
+					 }
+				 }
+			})
+		</script>
+	</body>
+</html>
